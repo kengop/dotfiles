@@ -26,7 +26,9 @@ NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'alkt/plantuml-syntax'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'plasticboy/vim-markdown'
-NeoBundle "joker1007/vim-markdown-quote-syntax"
+NeoBundle 'joker1007/vim-markdown-quote-syntax'
+NeoBundle 'aklt/plantuml-syntax'
+NeoBundle 'nathanaelkane/vim-indent-guides'
 
 call neobundle#end()
 
@@ -37,6 +39,15 @@ filetype plugin indent on
 " this will conveniently prompt you to install them.
 NeoBundleCheck
 
+" indent-guidsの設定
+let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_start_level=2
+let g:indent_guides_auto_colors=0
+let g:indent_guides_color_change_percent=30
+let g:indent_guides_guide_size=2
+
+" タブ
+set ts=2 sw=2 et
 " 行番号
 set number
 " ビジュアルベルの表示内容．空文字なら何もしない
@@ -77,8 +88,22 @@ set viminfo=
 syntax on
 " 色
 set background=dark
+" カラースキーマ
+colorscheme desert
+" 行間
+set linespace=3
+
+" フォント
+set guifont=MS_Gothic:h9
+set guifontwide=MS_Gothic:h9
+" タブ関連
+set tabstop=2
+"autocmd VimEnter * tab all
+"autocmd BufAdd * exe 'Tablast | tabe "' . expand( "<afile") .'"'
+
 " カーソルを表示行（物理行）で移動する
 nnoremap j gj
 nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up> gk
+
