@@ -24,11 +24,27 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'alkt/plantuml-syntax'
+" markdown中のテーブル部分の整形
 NeoBundle 'godlygeek/tabular'
+" markdownのシンタックスハイライト
 NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'joker1007/vim-markdown-quote-syntax'
-NeoBundle 'aklt/plantuml-syntax'
+" markdownのソースコードのシンタックスハイライト
+NeoBundle "joker1007/vim-markdown-quote-syntax"
+" インデントに色を付けて見やすくする
 NeoBundle 'nathanaelkane/vim-indent-guides'
+
+NeoBundle 'sickill/vim-monokai'
+
+NeoBundleLazy 'leafgarland/typescript-vim', {
+\ 'autoload' : {
+\   'filetypes' : ['typescript'] }
+\}
+
+NeoBundleLazy 'jason0x43/vim-js-indent', {
+\ 'autoload' : {
+\   'filetypes' : ['javascript', 'typescript', 'html'],
+\}}
+let g:js_indent_typescript = 1
 
 call neobundle#end()
 
@@ -48,6 +64,7 @@ let g:indent_guides_guide_size=2
 
 " タブ
 set ts=2 sw=2 et
+
 " 行番号
 set number
 " ビジュアルベルの表示内容．空文字なら何もしない
@@ -93,14 +110,30 @@ colorscheme desert
 " 行間
 set linespace=3
 
-" フォント
-set guifont=MS_Gothic:h9
-set guifontwide=MS_Gothic:h9
+
 " タブ関連
 set tabstop=2
 "autocmd VimEnter * tab all
 "autocmd BufAdd * exe 'Tablast | tabe "' . expand( "<afile") .'"'
 
+set term=xterm
+set t_Co=256
+let &t_AB="\e[48;5;%dm"
+let &t_AF="\e[38;5;%dm"
+" タブ文字の表示幅
+set tabstop=2
+" タブ入力を複数の空白入力に置き換える
+"set expandtab
+" vimが入力するタブのサイズ
+set shiftwidth=2
+set expandtab
+set autoindent
+" カーソル行の背景色を変更する
+set cursorline
+" ヤンクしたデータをクリップボードで使用＆選択範囲自動コピー
+set clipboard=unnamed,autoselect
+" ファイル名に普通にスラッシュを使う(完全ではない)
+set shellslash
 " カーソルを表示行（物理行）で移動する
 nnoremap j gj
 nnoremap k gk
