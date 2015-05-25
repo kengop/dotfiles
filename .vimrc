@@ -113,8 +113,14 @@ set background=dark
 " set t_Co=256
 " let &t_AB="\e[48;5;%dm"
 " let &t_AF="\e[38;5;%dm"
+
 " colorscheme
+" https://github.com/tomasr/molokai
 colorscheme molokai
+" molokaiオリジナルの背景色にする
+" let g:molokai_original = 1
+" オリジナルに近い配色に近づける
+let g:rehash256 = 1
 
 " スクロール送りを開始する前後の行数を指定
 set scrolloff=5
