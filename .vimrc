@@ -23,7 +23,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Note: You don't set neobundle setting in .gvimrc!
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'alkt/plantuml-syntax'
+"NeoBundle 'alkt/plantuml-syntax'
 " markdown中のテーブル部分の整形
 NeoBundle 'godlygeek/tabular'
 " markdownのシンタックスハイライト
@@ -33,6 +33,8 @@ NeoBundle "joker1007/vim-markdown-quote-syntax"
 " インデントに色を付けて見やすくする
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
+NeoBundle 'Shougo/vimproc.vim'
+NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'sickill/vim-monokai'
 
 NeoBundleLazy 'leafgarland/typescript-vim', {
@@ -55,16 +57,18 @@ filetype plugin indent on
 " this will conveniently prompt you to install them.
 NeoBundleCheck
 
-" indent-guidsの設定
-let g:indent_guides_enable_on_vim_startup=1
-let g:indent_guides_start_level=2
-let g:indent_guides_auto_colors=0
-let g:indent_guides_color_change_percent=30
-let g:indent_guides_guide_size=2
-
 " タブ
 set ts=2 sw=2 et
 
+" vim-indent-guidsの設定
+" vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_start_level=2
+let g:indent_guides_auto_colors=0
+let g:indent_guides_guide_size=2
+autocmd VimEnter, Colorschme * : highligh IndentGudesOdd ctermbg=236
+autocmd VimEnter, Colorschme * : highligh IndentGudesEven ctermbg=black
 " 行番号
 set number
 " ビジュアルベルの表示内容．空文字なら何もしない
@@ -105,21 +109,21 @@ set viminfo=
 syntax on
 " 色
 set background=dark
-" カラースキーマ
-colorscheme desert
+" set term=xterm
+" set t_Co=256
+" let &t_AB="\e[48;5;%dm"
+" let &t_AF="\e[38;5;%dm"
+" colorscheme
+colorscheme molokai
+
+" スクロール送りを開始する前後の行数を指定
+set scrolloff=5
+
 " 行間
 set linespace=3
-
-
 " タブ関連
-set tabstop=2
 "autocmd VimEnter * tab all
 "autocmd BufAdd * exe 'Tablast | tabe "' . expand( "<afile") .'"'
-
-set term=xterm
-set t_Co=256
-let &t_AB="\e[48;5;%dm"
-let &t_AF="\e[38;5;%dm"
 " タブ文字の表示幅
 set tabstop=2
 " タブ入力を複数の空白入力に置き換える
@@ -140,3 +144,20 @@ nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up> gk
 
+" 検索結果のハイライトと取り消し
+nnoremap <ESC><ESC> : nohlsearch<CR>
+
+" エラービープ音の全停止
+set visualbell t_vb=
+set noerrorbells
+
+" 検索結果の対象を中央に表示
+nmap n nzz
+nmap N Nzz
+nmap * *zz
+nmap # #zz
+nmap g* g*zz
+nmap g# g#zz
+
+" INSERTモードから抜けるときに便利なキーバインド
+inoremap <silent> jj <ESC>
