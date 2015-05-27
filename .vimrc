@@ -23,7 +23,6 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Note: You don't set neobundle setting in .gvimrc!
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
-"NeoBundle 'alkt/plantuml-syntax'
 " markdown中のテーブル部分の整形
 NeoBundle 'godlygeek/tabular'
 " markdownのシンタックスハイライト
@@ -33,9 +32,13 @@ NeoBundle "joker1007/vim-markdown-quote-syntax"
 " インデントに色を付けて見やすくする
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
+" PlantUMLのシンタックスハイライト
+NeoBundle "aklt/plantuml-syntax"
+
 NeoBundle 'Shougo/vimproc.vim'
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'sickill/vim-monokai'
+NeoBundle 'tomasr/molokai'
 
 NeoBundleLazy 'leafgarland/typescript-vim', {
 \ 'autoload' : {
@@ -103,7 +106,8 @@ set showcmd
 " 対応する括弧を強調させる
 set showmatch
 filetype on
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+" ステータスラインのフォーマット指定
+set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P,%Y
 set viminfo=
 " 構文毎に文字色を変化させる
 syntax on
@@ -167,3 +171,5 @@ nmap g# g#zz
 
 " INSERTモードから抜けるときに便利なキーバインド
 inoremap <silent> jj <ESC>
+
+set encoding=utf-8
