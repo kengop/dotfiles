@@ -23,6 +23,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Note: You don't set neobundle setting in .gvimrc!
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
+NeoBundle 'Shougo/vimfiler'
 " markdown中のテーブル部分の整形
 NeoBundle 'godlygeek/tabular'
 " markdownのシンタックスハイライト
@@ -35,7 +36,12 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 " PlantUMLのシンタックスハイライト
 NeoBundle "aklt/plantuml-syntax"
 
-NeoBundle 'Shougo/vimproc.vim'
+NeoBundle 'Shougo/vimproc.vim', {
+\  'build' : {
+\    'linux' : 'make'
+\    },
+\  }
+    
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'sickill/vim-monokai'
 NeoBundle 'tomasr/molokai'
@@ -50,6 +56,28 @@ NeoBundleLazy 'jason0x43/vim-js-indent', {
 \   'filetypes' : ['javascript', 'typescript', 'html'],
 \}}
 let g:js_indent_typescript = 1
+
+" elixir
+NeoBundle 'elixir-lang/vim-elixir'
+
+" 補完
+NeoBundle 'Shougo/neocomplcache'
+" neocomplecacheをvim起動時に有効化
+let g:neocomplcache_enable_at_startup = 1
+" smart case機能の有効化
+let g:neocomplcache_enable_snart_case = 1
+" '_'区切りの補完を有効化
+let g:neocomplcache_enable_underbar_completion = 1
+
+" powerline
+NeoBundle 'Lokaltog/vim-powerline'
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
+set laststatus=2
+set showtabline=2
+set noshowmode
+
 
 call neobundle#end()
 
