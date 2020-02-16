@@ -1,0 +1,36 @@
+[user]
+  useConfigOnly = true
+[color]
+  ui = false
+  status = always
+  diff = false
+  branch = false
+  log = true
+[push]
+  default = current
+[core]
+  editor = vim
+  # ファイル名の大文字小文字を無視するか
+  ignorecase = false
+  # ファイルの改行コードを変換するか
+  autoCRLF = false
+  # 日本語ファイルをエンコードするか
+  quotepath = false
+[includeIf "gitdir:~/ws/work/"]
+  path = ~/.gitconfig-work
+[includeIf "gitdir:~/ws/other/"]
+  path = ~/.gitconfig-other
+[alias]
+  st = status
+  co = checkout
+  br = branch
+  ci = commit
+  fp = !git fetch --prune
+  sha = rev-parse HEAD
+  po = push origin
+  pof = push -f origin
+  pu = push -u origin
+  # push current branch to origin with --upstream
+  puc = "!f(){ git push -u origin `git symbolic-ref --short HEAD` ;}; f"
+  graph = "log --graph --oneline --decorate --branches --tags --remotes --color"
+
