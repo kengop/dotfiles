@@ -33,4 +33,5 @@
   # push current branch to origin with --upstream
   puc = "!f(){ git push -u origin `git symbolic-ref --short HEAD` ;}; f"
   graph = "log --graph --oneline --decorate --branches --tags --remotes --color"
+  rmb = "!f(){ git branch --merged | grep -Ev '^\\*|develop|master' | xargs -I {} git branch -d {} ; };f"
 
