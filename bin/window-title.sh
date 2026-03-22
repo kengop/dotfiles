@@ -14,7 +14,7 @@ claude_state() {
   if echo "$last_output" | grep -q "esc to interrupt"; then
     echo "🤔"  # 処理中
   else
-    echo "⏳"  # 入力待ち
+    echo "❓"  # 入力待ち
   fi
 }
 
