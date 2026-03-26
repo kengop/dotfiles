@@ -23,13 +23,13 @@ STATE=$(claude_state "$DIR")
 
 if [ -z "$TOPLEVEL" ]; then
     TITLE=$(basename "$DIR" | rtrim)
-    echo "${TITLE}${STATE:+ $STATE}"
+    echo "${STATE:+$STATE }${TITLE}"
     exit 0
 fi
 NAME=$(basename "$TOPLEVEL" | rtrim)
 GITDIR=$(git -C "$DIR" rev-parse --git-dir 2>/dev/null)
 if echo "$GITDIR" | grep -q worktrees; then
-    echo "[wt]${NAME}${STATE:+ $STATE}"
+    echo "${STATE:+$STATE }[wt]${NAME}"
 else
-    echo "${NAME}${STATE:+ $STATE}"
+    echo "${STATE:+$STATE }${NAME}"
 fi
