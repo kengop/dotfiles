@@ -1,25 +1,52 @@
 #!/bin/bash
 DIR="${1:-.}"
+PANE_ID="${2:-}"
+MODE="${3:-}"
 rtrim() { awk '{n=length; print (n>15 ? substr($0,n-14) : $0)}'; }
 
-claude_state() {
-  local abs_dir
-  abs_dir=$(realpath "$1" 2>/dev/null || echo "$1")
-  local session_name="claude-$(echo "$abs_dir" | md5sum | cut -c1-8)"
-  tmux has-session -t "$session_name" 2>/dev/null || return
-
-  local last_output
-  last_output=$(tmux capture-pane -t "$session_name" -p 2>/dev/null)
-
-  if echo "$last_output" | grep -q "esc to interrupt"; then
+# claude ウィンドウ自身の状態を直接参照する
+claude_state_direct() {
+  local pane_id="$1"
+  local content
+  content=$(tmux capture-pane -t "$pane_id" -p 2>/dev/null)
+  if echo "$content" | grep -q "esc to interrupt"; then
     echo "🤔"  # 処理中
   else
     echo "❓"  # 入力待ち
   fi
 }
 
+# bash ウィンドウから同パスの claude ペインを検索（処理中優先）
+claude_state_by_path() {
+  local abs_dir
+  abs_dir=$(realpath "$1" 2>/dev/null || echo "$1")
+  local found=""
+  local state=""
+  while IFS='|' read -r pid pcmd ppath; do
+    [ "$pcmd" = "claude" ] || continue
+    local abs_ppath
+    abs_ppath=$(realpath "$ppath" 2>/dev/null || echo "$ppath")
+    [ "$abs_ppath" = "$abs_dir" ] || continue
+    found=1
+    local content
+    content=$(tmux capture-pane -t "$pid" -p 2>/dev/null)
+    if echo "$content" | grep -q "esc to interrupt"; then
+      echo "🤔"
+      return  # 処理中を見つけたら即リターン（処理中優先）
+    fi
+    state="❓"
+  done < <(tmux list-panes -a -F '#{pane_id}|#{pane_current_command}|#{pane_current_path}')
+  [ -n "$found" ] && echo "$state"
+  # 同パスの claude が1つも見つからなければ空文字を返す
+}
+
 TOPLEVEL=$(git -C "$DIR" rev-parse --show-toplevel 2>/dev/null)
-STATE=$(claude_state "$DIR")
+# claude モード: 自分のペインを直接参照、bash モード: 同パスの claude を検索
+if [ "$MODE" = "claude" ] && [ -n "$PANE_ID" ]; then
+  STATE=$(claude_state_direct "$PANE_ID")
+else
+  STATE=$(claude_state_by_path "$DIR")
+fi
 
 if [ -z "$TOPLEVEL" ]; then
     TITLE=$(basename "$DIR" | rtrim)
