@@ -2,6 +2,7 @@
 DIR="${1:-.}"
 PANE_ID="${2:-}"
 MODE="${3:-}"
+PANE_PID="${4:-}"
 rtrim() { awk '{n=length; print (n>15 ? substr($0,n-14) : $0)}'; }
 
 # claude ウィンドウ自身の状態を直接参照する
@@ -14,6 +15,20 @@ claude_state_direct() {
   else
     echo "❓"  # 入力待ち
   fi
+}
+
+# Claude セッション名を取得（pane_pid の子プロセス PID でセッションファイルを参照）
+get_session_name() {
+  local pane_pid="$1"
+  [ -n "$pane_pid" ] || return
+  local pid session_file
+  for pid in $(pgrep -P "$pane_pid" 2>/dev/null); do
+    session_file="$HOME/.claude/sessions/${pid}.json"
+    if [ -f "$session_file" ]; then
+      grep -o '"name":"[^"]*"' "$session_file" | head -1 | sed 's/"name":"//;s/"$//'
+      return
+    fi
+  done
 }
 
 # bash ウィンドウから同パスの claude ペインを検索（処理中優先）
@@ -46,6 +61,17 @@ if [ "$MODE" = "claude" ] && [ -n "$PANE_ID" ]; then
   STATE=$(claude_state_direct "$PANE_ID")
 else
   STATE=$(claude_state_by_path "$DIR")
+fi
+
+# claude モードの場合、セッション名を取得
+SESSION_NAME=""
+if [ "$MODE" = "claude" ] && [ -n "$PANE_PID" ]; then
+  SESSION_NAME=$(get_session_name "$PANE_PID")
+fi
+
+if [ -n "$SESSION_NAME" ]; then
+    echo "${STATE:+$STATE }${SESSION_NAME:0:15}"
+    exit 0
 fi
 
 if [ -z "$TOPLEVEL" ]; then
