@@ -14,6 +14,8 @@ claude_state_direct() {
     echo "🤔"  # 処理中
   elif echo "$content" | grep -q "Esc to cancel"; then
     echo "💬"  # 権限確認待ち
+  elif echo "$content" | grep -q "Would you like to proceed"; then
+    echo "📋"  # プラン承認待ち
   else
     echo "❓"  # 入力待ち
   fi
@@ -52,6 +54,8 @@ claude_state_by_path() {
       return  # 処理中を見つけたら即リターン（処理中優先）
     elif echo "$content" | grep -q "Esc to cancel"; then
       state="💬"  # 権限確認待ち（処理中より優先度低）
+    elif echo "$content" | grep -q "Would you like to proceed"; then
+      state="📋"  # プラン承認待ち
     elif [ -z "$state" ]; then
       state="❓"
     fi
