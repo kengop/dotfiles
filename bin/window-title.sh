@@ -12,6 +12,8 @@ claude_state_direct() {
   content=$(tmux capture-pane -t "$pane_id" -p 2>/dev/null)
   if echo "$content" | grep -q "esc to interrupt"; then
     echo "🤔"  # 処理中
+  elif echo "$content" | grep -q "Esc to cancel"; then
+    echo "💬"  # 権限確認待ち
   else
     echo "❓"  # 入力待ち
   fi
@@ -48,8 +50,11 @@ claude_state_by_path() {
     if echo "$content" | grep -q "esc to interrupt"; then
       echo "🤔"
       return  # 処理中を見つけたら即リターン（処理中優先）
+    elif echo "$content" | grep -q "Esc to cancel"; then
+      state="💬"  # 権限確認待ち（処理中より優先度低）
+    elif [ -z "$state" ]; then
+      state="❓"
     fi
-    state="❓"
   done < <(tmux list-panes -a -F '#{pane_id}|#{pane_current_command}|#{pane_current_path}')
   [ -n "$found" ] && echo "$state"
   # 同パスの claude が1つも見つからなければ空文字を返す
