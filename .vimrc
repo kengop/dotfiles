@@ -115,3 +115,11 @@ nmap g# g#zz
 inoremap <silent> jj <ESC>
 
 set encoding=utf-8
+
+" fzf
+set rtp+=~/.fzf
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
+nnoremap <C-p> :Files<CR>
+nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>r :Rg<CR>
+nnoremap <Leader>h :History<CR>
