@@ -24,6 +24,12 @@ if [ ! -d "${CATPPUCCIN_DIR}" ]; then
   git clone --depth 1 https://github.com/catppuccin/vim.git "${CATPPUCCIN_DIR}"
 fi
 
+## vim-gitgutter (git diff をサインカラムに表示)
+GITGUTTER_DIR="${HOME}/.vim/pack/plugins/start/vim-gitgutter"
+if [ ! -d "${GITGUTTER_DIR}" ]; then
+  git clone --depth 1 https://github.com/airblade/vim-gitgutter.git "${GITGUTTER_DIR}"
+fi
+
 ## ripgrep (:Rg コマンドに必要)
 if ! command -v rg > /dev/null 2>&1; then
   echo "NOTE: ripgrep (rg) 未インストール。:Rg を使うには: sudo apt install ripgrep"

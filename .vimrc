@@ -121,3 +121,28 @@ nnoremap <C-p> :Files<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>r :Rg<CR>
 nnoremap <Leader>h :History<CR>
+
+" vim-gitgutter
+set updatetime=100
+let g:gitgutter_highlight_lines = 1
+nnoremap <Leader>gt :GitGutterLineHighlightsToggle<CR>
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+
+" Claude Code diff palette
+function! s:GitGutterClaudeColors() abort
+  highlight GitGutterAdd               guifg=#2EA043 guibg=#022800
+  highlight GitGutterChange            guifg=#2EA043 guibg=#022800
+  highlight GitGutterDelete            guifg=#5C0200 guibg=NONE
+  highlight GitGutterAddLine           guibg=#022800
+  highlight GitGutterChangeLine        guibg=#022800
+  " guibg=NONE だけでは Vim が「属性未設定」扱いし catppuccin の
+  " DiffDelete (#F38BA8) への default link を打ち消せないため明示リンクで無効化
+  highlight link GitGutterDeleteLine Normal
+  highlight GitGutterChangeDeleteLine  guibg=#022800
+endfunction
+augroup GitGutterClaudeColors
+  autocmd!
+  autocmd ColorScheme * call s:GitGutterClaudeColors()
+augroup END
+call s:GitGutterClaudeColors()
