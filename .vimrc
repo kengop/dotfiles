@@ -61,12 +61,10 @@ set background=dark
 " let &t_AF="\e[38;5;%dm"
 
 " colorscheme
-" https://github.com/tomasr/molokai
-colorscheme desert
-" molokaiオリジナルの背景色にする
-" let g:molokai_original = 1
-" オリジナルに近い配色に近づける
-let g:rehash256 = 1
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
+colorscheme catppuccin_mocha
 
 " スクロール送りを開始する前後の行数を指定
 set scrolloff=5

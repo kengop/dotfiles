@@ -18,6 +18,12 @@ if [ ! -d "${FZF_VIM_DIR}" ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.vim.git "${FZF_VIM_DIR}"
 fi
 
+## catppuccin (colorscheme)
+CATPPUCCIN_DIR="${HOME}/.vim/pack/plugins/start/catppuccin"
+if [ ! -d "${CATPPUCCIN_DIR}" ]; then
+  git clone --depth 1 https://github.com/catppuccin/vim.git "${CATPPUCCIN_DIR}"
+fi
+
 ## ripgrep (:Rg コマンドに必要)
 if ! command -v rg > /dev/null 2>&1; then
   echo "NOTE: ripgrep (rg) 未インストール。:Rg を使うには: sudo apt install ripgrep"
