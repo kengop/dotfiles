@@ -86,6 +86,24 @@ set autoindent
 set cursorline
 " ヤンクしたデータをクリップボードで使用＆選択範囲自動コピー
 set clipboard=unnamed,autoselect
+" WSL 対応: vim が -clipboard ビルドのため上記だけでは Windows クリップボードへ
+" 渡らない。tmux copy-mode と同じ win32yank.exe 経由でヤンク時に橋渡しする。
+if executable('win32yank.exe')
+  function! s:Win32YankOnYank() abort
+    if v:event.operator !=# 'y'
+      return
+    endif
+    let l:text = join(v:event.regcontents, "\n")
+    if v:event.regtype ==# 'V'
+      let l:text .= "\n"
+    endif
+    call system('win32yank.exe -i --crlf', l:text)
+  endfunction
+  augroup WSLClipboardYank
+    autocmd!
+    autocmd TextYankPost * call s:Win32YankOnYank()
+  augroup END
+endif
 " ファイル名に普通にスラッシュを使う(完全ではない)
 set shellslash
 " カーソルを表示行（物理行）で移動する
