@@ -3,3 +3,11 @@
 #    delta の side-by-side で開く
 bind generic W !sh -c "git show --color=always %(commit) | delta --side-by-side --paging=always"
 bind status  W !sh -c "git diff --color=always HEAD | delta --side-by-side --paging=always"
+
+# vimdiff による side-by-side diff（行内で横スクロール可能）
+# V: 現在のコミット (main / diff ビュー) または作業ツリー (status ビュー) を vimdiff で開く
+#    変更ファイルごとに vimdiff が順番に立ち上がる。:qa で次のファイルへ、全部閉じれば tig に戻る
+#    vim 内では ]c / [c で次/前の差分、zL / zH で横スクロール
+# status ビューではカーソル下のファイルがあればそれだけを、なければ作業ツリー全体を HEAD と比較する
+bind generic V !sh -c "git difftool -y -t vimdiff %(commit)^!"
+bind status  V !sh -c "git difftool -y -t vimdiff HEAD -- %(file)"

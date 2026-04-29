@@ -35,3 +35,7 @@
   graph = "log --graph --oneline --decorate --branches --tags --remotes --color"
   rmb = "!f(){ git branch --merged | grep -Ev '^\\*|develop|master' | xargs -I {} git branch -d {} ; };f"
 
+[diff]
+  tool = vimdiff
+[difftool]
+  prompt = false
