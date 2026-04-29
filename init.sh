@@ -34,3 +34,8 @@ fi
 if ! command -v rg > /dev/null 2>&1; then
   echo "NOTE: ripgrep (rg) 未インストール。:Rg を使うには: sudo apt install ripgrep"
 fi
+
+## git-delta (tig の W キーで side-by-side diff を表示するため)
+if ! command -v delta > /dev/null 2>&1; then
+  echo "NOTE: git-delta 未インストール。tig の W キーを使うには: sudo apt install git-delta"
+fi

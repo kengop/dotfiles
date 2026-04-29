@@ -1,0 +1,5 @@
+# delta による side-by-side diff
+# W: 現在のコミット (main / diff ビュー) または作業ツリー (status ビュー) の差分を
+#    delta の side-by-side で開く
+bind generic W !sh -c "git show --color=always %(commit) | delta --side-by-side --paging=always"
+bind status  W !sh -c "git diff --color=always HEAD | delta --side-by-side --paging=always"
