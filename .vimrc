@@ -164,3 +164,18 @@ augroup GitGutterClaudeColors
   autocmd ColorScheme * call s:GitGutterClaudeColors()
 augroup END
 call s:GitGutterClaudeColors()
+
+" vimdiff のハイライト
+" Catppuccin デフォルトでは CursorLine + DiffText で前景・背景が同色になり
+" 読めなくなるため、GitGutter と同じパレットで明示的に上書きする
+function! s:DiffClaudeColors() abort
+  highlight DiffAdd     guibg=#0A4D0A guifg=NONE  gui=NONE
+  highlight DiffChange  guibg=#0A4D0A guifg=NONE  gui=NONE
+  highlight DiffDelete  guibg=#4D0A0A guifg=#5C0200 gui=NONE
+  highlight DiffText    guibg=#1F7A1F guifg=NONE  gui=bold
+endfunction
+augroup DiffClaudeColors
+  autocmd!
+  autocmd ColorScheme * call s:DiffClaudeColors()
+augroup END
+call s:DiffClaudeColors()
