@@ -106,11 +106,13 @@ if executable('win32yank.exe')
 endif
 " ファイル名に普通にスラッシュを使う(完全ではない)
 set shellslash
-" カーソルを表示行（物理行）で移動する
-nnoremap j gj
-nnoremap k gk
-nnoremap <Down> gj
-nnoremap <Up> gk
+" カーソルを表示行（visual line）で移動する
+" ただし diff モードでは論理行単位で動かしたいので real line 移動に戻す
+" （wrap した長行で j を押しても進まない、という挙動を避ける）
+nnoremap <expr> j      &diff ? 'j' : 'gj'
+nnoremap <expr> k      &diff ? 'k' : 'gk'
+nnoremap <expr> <Down> &diff ? 'j' : 'gj'
+nnoremap <expr> <Up>   &diff ? 'k' : 'gk'
 
 " 検索結果のハイライトと取り消し
 nnoremap <ESC><ESC> : nohlsearch<CR>
@@ -179,3 +181,16 @@ augroup DiffClaudeColors
   autocmd ColorScheme * call s:DiffClaudeColors()
 augroup END
 call s:DiffClaudeColors()
+
+" vimdiff 起動時は両ペインで wrap を有効化（長い行を画面内で折り返して見せる）
+" diff モードは既定で nowrap になるため、起動完了時に明示的に上書きする
+function! s:VimDiffWrapEnable() abort
+  if &diff
+    windo setlocal wrap
+    wincmd t
+  endif
+endfunction
+augroup VimDiffWrap
+  autocmd!
+  autocmd VimEnter * call s:VimDiffWrapEnable()
+augroup END
